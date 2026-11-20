@@ -120,6 +120,13 @@ implantacao:
   - {id: M-teses.2, fase: 3, titulo: "Ligar 3 teses a peças reais no acervo", quem: agente, gate: true}
 checks:
   - "toda tese tem 'resultado' preenchido ou 'pendente'"
+sistema:
+  modo: espelho-destilado   # ou: canonico (sem sistema, o cérebro é a casa)
+  fonte: GED
+  chave: ged_id             # campo de ligação no frontmatter
+  consulta: ao_vivo         # via MCP/API; nada é copiado
+  digest: semanal           # opcional, só mudanças relevantes
+  escrita: com_aprovacao
 cloudflare:
   metadados: [{campo: tese, de: frontmatter}]
   rotinas: [{nome: tese-sem-resultado, cron: "0 9 * * 1", acao: "listar teses pendentes no hot.md"}]
@@ -127,7 +134,24 @@ cloudflare:
 
 **Regras:** autocontido; aditivo (só acrescenta); escreve apenas nos pontos de extensão do núcleo — `index.md`, `fontes.md`, `AGENTS.md`, `RESOLVER.md`, `_implantacao/roteiro.md`, `brain-check`; dependências ativadas automaticamente pelo Copier.
 
-**Módulos v1:** núcleo (inclui pessoas) · empresariais: `clientes`, `fornecedores`, `processos`, `sistemas`, `okrs` · jurídicos: `casos`, `teses`, `modelos`, `jurisprudencia` · pessoais: `objetivos`, `leituras` · transversais (opcionais em qualquer vertical): `design-system`.
+**Padrão `sistema:`:** todo módulo declara se é `canonico` (o cérebro é a casa) ou `espelho-destilado` (há um sistema-fonte: CRM, ERP, CLM, RH, sistema processual). No modo espelho, o cérebro guarda só estratégia, contexto, decisões e lições, mais a chave de ligação (`crm_id`, `sku`…); dados são consultados ao vivo via MCP/API; digest opcional grava só mudanças relevantes no `hot.md`; escrita no sistema só com aprovação humana. A F1 define o modo de cada módulo conforme os sistemas do cliente.
+
+**Módulos v1:** núcleo (inclui pessoas) · empresariais: `clientes`, `fornecedores`, `processos`, `sistemas`, `okrs` · jurídicos: `casos`, `teses`, `modelos`, `jurisprudencia` · pessoais: `objetivos`, `leituras` · transversais (opcionais em qualquer vertical): `design-system`, `reunioes`, `onboarding`, `governanca` (inclui privacidade), `ofertas`, `propostas`, `contratos`.
+
+**Backlog v1.1:** `comercial` (fino, sobre o CRM), `pessoas-rh` (estrutura e papéis; dados individuais ficam no sistema de RH), `mercado`, `prompts-agentes`, `entregas`, `prazos` (jurídico), `aprendizado` e `conteudo` (pessoal).
+
+**Módulos transversais v1 (resumo):**
+
+| Módulo | Guarda no cérebro | Fica na fonte | `sistema` padrão |
+|---|---|---|---|
+| `reunioes` | Atas ligadas a projetos/clientes/decisões; ações com dono | Gravações e transcrições (acervo) | canonico |
+| `onboarding` | "Comece aqui", quem é quem, como trabalhamos, primeiros 30 dias | — | canonico |
+| `governanca` | Políticas, riscos, controles, incidentes, lições; mapa de tratamentos e encarregado (sem dado pessoal) | Plataforma de GRC, se houver | espelho-destilado ou canonico |
+| `ofertas` | Uma nota por oferta: problema, para quem, entregáveis, escopo e fora do escopo, premissas, metodologia, equipe típica, diferenciais, objeções, cases, relações, materiais, status | Materiais no acervo; **preço na tabela da área comercial** (o módulo não calcula nem sugere preço) | canonico (espelho se houver ERP/CPQ, chave `sku`) |
+| `propostas` | Estrutura-modelo, escopos que funcionam, premissas e exclusões padrão, cases, **por que ganhou/perdeu**; seção de equipe montada das bios | PDF enviado (acervo); pipeline (CRM); condições comerciais definidas pela área comercial | canonico (chave `crm_id` se houver CRM) |
+| `contratos` | Partes, objeto, vigência, renovação, obrigações-chave, SLAs; alertas de vencimento no `hot.md` | Contrato assinado (acervo/GED/CLM) | espelho-destilado ou canonico |
+
+Encadeamento: `ofertas` → `propostas` (puxa escopo, entregáveis, premissas e equipe) → `contratos` → `entregas` (v1.1). Etapas típicas: F1 levantar portfólio/contratos ativos; F2 documentar as 5 ofertas principais; F3 (gate) gerar proposta de teste a partir de uma oferta, com equipe e marca aplicadas.
 
 **Bio profissional (núcleo, em `05-pessoas/`):** a nota de pessoa da equipe ganha uma seção `bio` para reúso em propostas, apresentações e sites: versões curta (~50 palavras), média (~120) e longa; idiomas pt/en; formação, certificações, áreas de atuação, cases autorizados; foto no acervo (R2), só linkada. Frontmatter `bio_publicavel: true` só depois de a própria pessoa aprovar o texto (aprovação registrada na linha do tempo). Só informação profissional e pública; nada de dado pessoal sensível. O módulo `propostas` monta a seção de equipe a partir dessas bios (campo `equipe:` da proposta).
 
