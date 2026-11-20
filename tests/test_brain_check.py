@@ -43,7 +43,11 @@ def test_detecta_problemas(tmp_path):
 def test_hot_vencido_e_longo(tmp_path):
     c = gerar(tmp_path / "c")
     bc = _carregar(c)
-    assert any("vencido" in e for e in bc.verificar(c, date.today() + timedelta(days=8)))
+    depois = date.today() + timedelta(days=8)
+    assert not any("vencido" in e for e in bc.verificar(c, depois))
+    assert any("vencido" in a for a in bc.avisos(c, depois))
+    assert any("vencido" in e for e in bc.verificar(c, depois, estrito=True))
+    assert bc.avisos(c, date.today()) == []
     hot = c / "_maps" / "hot.md"
     hot.write_text(hot.read_text(encoding="utf-8") + "\n".join(f"- item {i}" for i in range(40)), encoding="utf-8")
     assert any("máx. 40" in e for e in bc.verificar(c, date.today()))
@@ -136,3 +140,35 @@ def test_alias_ancora_e_codigo_cercado(tmp_path):
     (c / "01-projetos" / "b.md").write_text(
         fm + "[[01-projetos/x|apelido]] [[01-projetos/x#secao]]\n```\n[[nada]] {{x}}\n```\n", encoding="utf-8")
     assert bc.verificar(c, date.today()) == []
+
+
+def test_cli_hot_vencido_e_aviso_salvo_estrito(tmp_path):
+    c = gerar(tmp_path / "c")
+    script = c / "_system" / "ferramentas" / "brain_check.py"
+    depois = (date.today() + timedelta(days=8)).isoformat()
+    r = subprocess.run([sys.executable, str(script), str(c), "--hoje", depois], capture_output=True, text=True)
+    assert r.returncode == 0 and "AVISO _maps/hot.md: vencido" in r.stdout
+    r = subprocess.run([sys.executable, str(script), str(c), "--hoje", depois, "--estrito"], capture_output=True, text=True)
+    assert r.returncode == 1 and "ERRO _maps/hot.md: vencido" in r.stdout
+
+
+def test_md_nao_utf8_vira_erro(tmp_path):
+    c = gerar(tmp_path / "c")
+    (c / "01-projetos" / "latin1.md").write_bytes("---\ntype: projeto\ncreated: 2026-01-01\n---\n# ação\n".encode("latin-1"))
+    assert "01-projetos/latin1.md: não é UTF-8" in _carregar(c).verificar(c, date.today())
+
+
+def test_etapa_do_roteiro_ausente_no_status(tmp_path):
+    c = gerar(tmp_path / "c", modulos=["teses"])
+    bc = _carregar(c)
+    assert bc.verificar(c, date.today()) == []
+    status = c / "_implantacao" / "status.md"
+    linhas = [l for l in status.read_text(encoding="utf-8").splitlines(keepends=True)
+              if not l.startswith(("| M-teses.2 |", "| F3.1 |"))]
+    status.write_text("".join(linhas), encoding="utf-8")
+    erros = bc.verificar(c, date.today())
+    assert "_implantacao/status.md: etapa M-teses.2 do roteiro ausente" in erros
+    assert "_implantacao/status.md: etapa F3.1 do roteiro ausente" in erros
+    assert len(erros) == 2
+    status.unlink()
+    assert not any("do roteiro ausente" in e for e in bc.verificar(c, date.today()))
