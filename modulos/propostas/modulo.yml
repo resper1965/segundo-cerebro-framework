@@ -1,0 +1,23 @@
+id: propostas
+nome: Propostas
+descricao: Biblioteca de propostas — estrutura, escopos que funcionam, premissas e exclusões, cases e por que ganhou ou perdeu.
+depende_de: [ofertas]
+pasta: 22-propostas
+entra: "É uma proposta enviada (ou modelo de proposta) e o que aprendemos com ela"
+nao_entra: "O PDF enviado (fica no acervo); o pipeline (fica no CRM); preço e condições (definidos pela área comercial)."
+mapa:
+  titulo: "📨 Propostas"
+  colunas: [Proposta, Cliente, Oferta, Status, Resultado, Motivo]
+template: template-proposta
+fontes:
+  - {fonte: CRM, o_que: "oportunidade e estágio", nao_duplicar: "o registro da oportunidade"}
+implantacao:
+  - {id: M-propostas.1, fase: 3, titulo: Gerar proposta de teste a partir de uma oferta com equipe e marca, quem: agente, gate: true, saida: 22-propostas/, pronto_quando: Consultor aprova o rascunho}
+checks: ["toda proposta encerrada tem resultado e motivo"]
+sistema: {modo: canonico, chave: crm_id}
+cloudflare:
+  metadados: [{campo: cliente, de: frontmatter}, {campo: oferta, de: frontmatter}]
+  rotinas: []
+agentes:
+  - "Monte a seção de equipe só com bios de pessoas com bio_publicavel true."
+  - "Escopo, entregáveis e premissas vêm da oferta; preço e condições vêm da área comercial."

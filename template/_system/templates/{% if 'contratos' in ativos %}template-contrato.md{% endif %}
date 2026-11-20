@@ -1,0 +1,22 @@
+---
+type: contrato
+created: {{date}}
+updated: {{date}}
+contraparte:
+objeto:
+vigencia_ate:
+renovacao: manual
+dono:
+tags: []
+---
+# {{title}}
+**Resumo:** (o que foi contratado, por quem, até quando)
+
+## Obrigações-chave
+## SLAs
+## Documento assinado (acervo)
+
+---
+
+## Linha do tempo
+- {{date}} — contrato registrado

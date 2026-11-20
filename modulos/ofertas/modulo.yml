@@ -1,0 +1,23 @@
+id: ofertas
+nome: Ofertas
+descricao: O que vendemos — uma nota por produto ou serviço com problema, público, entregáveis, escopo, premissas, metodologia, equipe e diferenciais.
+depende_de: []
+pasta: 21-ofertas
+entra: "É um produto, serviço ou pacote que vendemos"
+nao_entra: "Preço e condições comerciais (ficam na tabela da área comercial); materiais finais (ficam no acervo)."
+mapa:
+  titulo: "🧩 Ofertas"
+  colunas: [Oferta, Status, Para quem, Equipe típica]
+template: template-oferta
+fontes:
+  - {fonte: Tabela comercial, o_que: "preços e condições", nao_duplicar: "o preço"}
+implantacao:
+  - {id: M-ofertas.1, fase: 1, titulo: Listar o portfólio de ofertas, quem: consultor, gate: false, saida: _maps/mapa-ofertas.md, pronto_quando: Portfólio listado}
+  - {id: M-ofertas.2, fase: 2, titulo: Documentar as 5 ofertas principais, quem: agente, gate: false, saida: 21-ofertas/, pronto_quando: 5 ofertas completas}
+checks: ["toda oferta tem escopo e fora do escopo"]
+sistema: {modo: canonico, chave: sku}
+cloudflare:
+  metadados: [{campo: oferta, de: frontmatter}]
+  rotinas: []
+agentes:
+  - "Nunca calcule nem sugira preço: aponte para a tabela da área comercial."
