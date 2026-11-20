@@ -48,16 +48,28 @@ Kit para criar e implantar "cérebros" (segundos cérebros) empresariais e pesso
 
 ```
 brain-kit/
-  copier.yml              # questionário: nome, vertical, módulos, responsável; migrações
-  template/               # o que vira o cérebro (Jinja, pastas condicionais por módulo)
-  modulos/<id>/           # módulos autocontidos (ver §5)
-  verticais/              # pessoal.yml, empresa.yml, juridico.yml (listas de módulos)
-  skills/                 # implantar-cerebro + skills de operação (SKILL.md)
-  ferramentas/            # brain-check, gitleaks (pre-commit), preset Obsidian
-  cloudflare/             # Worker MCP, agente (Agents SDK), configs wrangler de referência
-  metodologia/            # princípios (§3) explicados para consultores
-  tests/                  # ver §9
-  CHANGELOG.md
+  copier.yml                         # perguntas, verticais, extensões, skip_if_exists
+  requirements-dev.txt               # dependências
+  pyproject.toml                     # só configuração do pytest
+  extensions/
+    modulos_lib.py                   # carregar/resolver/validar módulos; carregar fases
+    contexto.py                      # ContextHook do Copier
+  macros/brain.jinja                 # macros mapa() e readme()
+  modulos/<id>/modulo.yml            # contrato de cada módulo (18)
+  fases/nucleo.yml                   # fases F0–F5 e etapas do núcleo
+  tools/novo_modulo.py               # cria README/mapa condicionais de um módulo
+  template/                          # tudo que vira o cérebro
+    {{_copier_conf.answers_file}}.jinja
+    CLAUDE.md, AGENTS.md, RESOLVER.md.jinja, .pre-commit-config.yaml
+    00-inbox/ … 05-pessoas/, diario/ (README.md)
+    _maps/  hot, index, fontes, decisoes, glossario, mapa-projetos|areas|pessoas|recursos (.md.jinja)
+    _implantacao/ roteiro.md.jinja, status.md.jinja, perguntas-ouro.md.jinja
+    _system/ AGENTS.md.jinja, convencoes.md.jinja, templates/*.md, skills/*/SKILL.md, ferramentas/brain_check.py
+    {% if obsidian %}.obsidian{% endif %}/app.json, templates.json
+    (arquivos condicionais dos módulos)
+  tests/ conftest.py, test_modulos_lib.py, test_nucleo.py, test_fases.py, test_brain_check.py,
+         test_modulos.py, test_skills.py, test_update.py, test_matriz.py
+  metodologia/principios.md, README.md, CHANGELOG.md
 ```
 
 ### 4.2 Cérebro gerado (núcleo, sempre presente)
@@ -97,13 +109,9 @@ RESOLVER.md  CLAUDE.md  .copier-answers.yml  .pre-commit-config.yaml
 
 ## 5. Contrato de módulo
 
-```
-modulos/<id>/
-  modulo.yml        # contrato
-  conteudo/         # pastas, mapas, templates, READMEs
-  implantacao.md    # descrição das etapas que pluga
-  agentes.md        # regras acrescentadas ao AGENTS.md
-```
+`modulos/<id>/modulo.yml` (contrato, incluindo `agentes` e `implantacao`); conteúdo do módulo em `template/` com caminhos condicionais `{% if '<id>' in ativos %}`.
+
+Pastas dos módulos (numeração única global): `06-clientes`, `07-fornecedores`, `08-processos`, `09-sistemas`, `10-okrs`, `11-casos`, `12-teses`, `13-modelos`, `14-jurisprudencia`, `15-objetivos`, `16-leituras`, `17-design-system`, `18-reunioes`, `19-onboarding`, `20-governanca`, `21-ofertas`, `22-propostas`, `23-contratos`. Na v0.1, os `checks:` são renderizados em `_system/AGENTS.md` e verificados pela skill `implantar-cerebro` na F2.6; a automação no `brain-check` fica para a v0.2.
 
 ```yaml
 id: teses
