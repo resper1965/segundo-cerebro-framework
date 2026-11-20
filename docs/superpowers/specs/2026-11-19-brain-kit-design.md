@@ -129,6 +129,8 @@ cloudflare:
 
 **Módulos v1:** núcleo (inclui pessoas) · empresariais: `clientes`, `fornecedores`, `processos`, `sistemas`, `okrs` · jurídicos: `casos`, `teses`, `modelos`, `jurisprudencia` · pessoais: `objetivos`, `leituras` · transversais (opcionais em qualquer vertical): `design-system`.
 
+**Bio profissional (núcleo, em `05-pessoas/`):** a nota de pessoa da equipe ganha uma seção `bio` para reúso em propostas, apresentações e sites: versões curta (~50 palavras), média (~120) e longa; idiomas pt/en; formação, certificações, áreas de atuação, cases autorizados; foto no acervo (R2), só linkada. Frontmatter `bio_publicavel: true` só depois de a própria pessoa aprovar o texto (aprovação registrada na linha do tempo). Só informação profissional e pública; nada de dado pessoal sensível. O módulo `propostas` monta a seção de equipe a partir dessas bios (campo `equipe:` da proposta).
+
 **Módulo `design-system`:** `11-design-system/` com `tokens.json` (W3C DTCG), `design.md` (regras de uso para agentes), `voz-e-tom.md`; logos, fontes e imagens no acervo (R2), só linkados. Se o cliente já tem DS em Figma/Storybook, o cérebro guarda tokens exportados e regras destiladas e aponta a fonte em `fontes.md`; se não tem, o cérebro é a casa canônica. Etapas: F1 inventário de ativos de marca; F2 captura de tokens e regras; F3 (gate) agente gera documento de teste só com o DS e o cliente confirma fidelidade. Skill de operação `aplicar-marca`; Worker MCP expõe `get_tokens` e `get_regras`.
 
 **Verticais v1:** `pessoal` = núcleo + objetivos + leituras · `empresa` = núcleo + clientes + fornecedores + processos + sistemas + okrs · `juridico` = empresa + casos + teses + modelos + jurisprudencia.
