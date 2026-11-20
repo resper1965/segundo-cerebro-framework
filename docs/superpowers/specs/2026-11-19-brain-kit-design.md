@@ -68,7 +68,8 @@ brain-kit/
     {% if obsidian %}.obsidian{% endif %}/app.json, templates.json
     (arquivos condicionais dos módulos)
   tests/ conftest.py, test_modulos_lib.py, test_nucleo.py, test_fases.py, test_brain_check.py,
-         test_modulos.py, test_skills.py, test_update.py, test_matriz.py
+         test_geracao.py, test_modulos.py, test_transversais.py, test_verticais.py, test_skills.py,
+         test_update.py, test_matriz.py
   metodologia/principios.md, README.md, CHANGELOG.md
 ```
 
@@ -113,31 +114,31 @@ RESOLVER.md  CLAUDE.md  .copier-answers.yml  .pre-commit-config.yaml
 
 Pastas dos módulos (numeração única global): `06-clientes`, `07-fornecedores`, `08-processos`, `09-sistemas`, `10-okrs`, `11-casos`, `12-teses`, `13-modelos`, `14-jurisprudencia`, `15-objetivos`, `16-leituras`, `17-design-system`, `18-reunioes`, `19-onboarding`, `20-governanca`, `21-ofertas`, `22-propostas`, `23-contratos`. Na v0.1, os `checks:` são renderizados em `_system/AGENTS.md` e verificados pela skill `implantar-cerebro` na F2.6; a automação no `brain-check` fica para a v0.2.
 
+Exemplo real (`modulos/teses/modulo.yml`):
+
 ```yaml
 id: teses
-nome: Teses jurídicas
-descricao: Uma nota por tese, com argumentos, peças onde foi usada e resultado.
+nome: Teses
+descricao: Uma nota por tese com argumentos, jurisprudência-chave, peças onde foi usada e resultado.
 depende_de: [casos, modelos]
-pastas: [12-teses]
-mapas: [mapa-teses]
-templates: [template-tese]
-fontes:
-  - {fonte: GED, o_que: "peças e decisões", nao_duplicar: "o documento"}
+pasta: 12-teses
+entra: "É uma tese jurídica reutilizável"
+nao_entra: "A peça em si (fica no acervo, linkada)."
+mapa:
+  titulo: "🧠 Teses"
+  colunas: [Tese, Área, Resultado, Peças, Atualizada em]
+template: template-tese
+fontes: []
 implantacao:
-  - {id: M-teses.1, fase: 2, titulo: "Levantar as 10 teses mais usadas", quem: consultor, gate: false, saida: 12-teses/, pronto_quando: "10 teses no mapa"}
-  - {id: M-teses.2, fase: 3, titulo: "Ligar 3 teses a peças reais no acervo", quem: agente, gate: true, saida: 12-teses/, pronto_quando: "3 teses com peças e resultado"}
-checks:
-  - "toda tese tem 'resultado' preenchido ou 'pendente'"
-sistema:
-  modo: espelho-destilado   # ou: canonico (sem sistema, o cérebro é a casa)
-  fonte: GED
-  chave: ged_id             # campo de ligação no frontmatter
-  consulta: ao_vivo         # via MCP/API; nada é copiado
-  digest: semanal           # opcional, só mudanças relevantes
-  escrita: com_aprovacao
+  - {id: M-teses.1, fase: 2, titulo: Levantar as 10 teses mais usadas, quem: consultor, gate: false, saida: 12-teses/, pronto_quando: 10 teses no mapa}
+  - {id: M-teses.2, fase: 3, titulo: Ligar 3 teses a peças reais no acervo, quem: agente, gate: true, saida: 12-teses/, pronto_quando: 3 teses com peças e resultado}
+checks: ["toda tese tem 'resultado' preenchido ou 'pendente'"]
+sistema: {modo: canonico}
 cloudflare:
-  metadados: [{campo: tese, de: frontmatter}]
-  rotinas: [{nome: tese-sem-resultado, cron: "0 9 * * 1", acao: "listar teses pendentes no hot.md"}]
+  metadados: [{campo: tese, de: frontmatter}, {campo: area, de: frontmatter}]
+  rotinas: [{nome: tese-sem-resultado, cron: "0 9 * * 1", acao: "listar teses com resultado pendente no hot.md"}]
+agentes:
+  - "Quando sair decisão num caso, proponha atualizar o resultado das teses usadas (proposta na inbox)."
 ```
 
 **Regras:** autocontido; aditivo (só acrescenta); escreve apenas nos pontos de extensão do núcleo — `index.md`, `fontes.md`, `AGENTS.md`, `RESOLVER.md`, `_implantacao/roteiro.md`, `brain-check`; dependências ativadas automaticamente pelo Copier.
