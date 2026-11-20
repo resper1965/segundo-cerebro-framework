@@ -12,7 +12,9 @@ import sys
 from datetime import date
 from pathlib import Path
 
-IGNORAR_DIRS = {".git", ".obsidian", "templates", "skills", "ferramentas"}
+IGNORAR_PREFIXOS = (("_system", "templates"), ("_system", "skills"), ("_system", "ferramentas"))
+SEM_FRONTMATTER_PASTAS = {"00-inbox"}
+EXTENSAO = re.compile(r"\.(?=[A-Za-z0-9]*[A-Za-z])[A-Za-z0-9]{1,5}$")
 SEM_FRONTMATTER = {"README.md", "RESOLVER.md", "CLAUDE.md", "AGENTS.md"}
 PASTA_CONTEUDO = re.compile(r"^(\d\d-[a-z0-9-]+|diario|_maps|_implantacao)$")
 LINK = re.compile(r"\[\[([^\]|#]*)(?:[#|][^\]]*)?\]\]")
@@ -23,17 +25,18 @@ MAX_DIAS_HOT = 7
 
 
 def ler_frontmatter(texto: str) -> tuple[dict | None, str]:
+    texto = texto.replace("\r\n", "\n")
     if not texto.startswith("---\n"):
         return None, texto
-    fim = texto.find("\n---", 4)
-    if fim == -1:
+    fecho = re.search(r"^---$", texto[4:], re.M)
+    if fecho is None:
         return None, texto
     dados: dict[str, str] = {}
-    for linha in texto[4:fim].splitlines():
+    for linha in texto[4:4 + fecho.start()].splitlines():
         if ":" in linha and not linha.startswith((" ", "-", "#")):
             chave, valor = linha.split(":", 1)
             dados[chave.strip()] = valor.strip().strip("'\"")
-    return dados, texto[fim + 4:].lstrip("\n")
+    return dados, texto[4 + fecho.end():].lstrip("\n")
 
 
 def _sem_codigo(texto: str) -> str:
@@ -43,7 +46,9 @@ def _sem_codigo(texto: str) -> str:
 def _arquivos(raiz: Path):
     for caminho in sorted(raiz.rglob("*.md")):
         rel = caminho.relative_to(raiz)
-        if any(parte in IGNORAR_DIRS for parte in rel.parts[:-1]):
+        if any(parte.startswith(".") for parte in rel.parts[:-1]):
+            continue
+        if len(rel.parts) > 2 and rel.parts[:2] in IGNORAR_PREFIXOS:
             continue
         yield caminho, rel
 
@@ -53,12 +58,12 @@ def verificar(raiz: Path, hoje: date) -> list[str]:
     erros: list[str] = []
     for caminho, rel in _arquivos(raiz):
         nome = rel.as_posix()
-        texto = caminho.read_text(encoding="utf-8")
+        texto = caminho.read_text(encoding="utf-8").replace("\r\n", "\n")
         limpo = _sem_codigo(texto)
         if "{{" in limpo or "}}" in limpo:
             erros.append(f"{nome}: placeholder não resolvido")
         fm, _ = ler_frontmatter(texto)
-        em_conteudo = len(rel.parts) > 1 and PASTA_CONTEUDO.match(rel.parts[0])
+        em_conteudo = len(rel.parts) > 1 and PASTA_CONTEUDO.match(rel.parts[0]) and rel.parts[0] not in SEM_FRONTMATTER_PASTAS
         if em_conteudo and rel.name not in SEM_FRONTMATTER:
             if fm is None:
                 erros.append(f"{nome}: sem frontmatter")
@@ -72,7 +77,7 @@ def verificar(raiz: Path, hoje: date) -> list[str]:
                 erros.append(f"{nome}: link vazio")
             elif "/" not in alvo:
                 erros.append(f"{nome}: link sem caminho [[{alvo}]]")
-            elif not (raiz / (alvo if alvo.endswith(".md") else f"{alvo}.md")).exists():
+            elif not (raiz / (alvo if EXTENSAO.search(alvo) else f"{alvo}.md")).exists():
                 erros.append(f"{nome}: link quebrado [[{alvo}]]")
     erros += _verificar_hot(raiz, hoje)
     return erros
