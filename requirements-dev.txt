@@ -1,0 +1,4 @@
+copier>=9.4,<10
+copier-template-extensions>=0.3
+pyyaml>=6
+pytest>=8
