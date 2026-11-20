@@ -1,0 +1,21 @@
+---
+type: tese
+created: {{date}}
+updated: {{date}}
+area:
+resultado: pendente
+tags: [tese]
+---
+# {{title}}
+**Tese em uma frase:**
+
+## Argumentos
+## Jurisprudência-chave
+## Peças onde foi usada (acervo)
+| Caso | Peça | Data | Resultado |
+|---|---|---|---|
+
+---
+
+## Linha do tempo
+- {{date}} — tese registrada

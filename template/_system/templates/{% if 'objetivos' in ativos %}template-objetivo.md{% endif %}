@@ -1,0 +1,18 @@
+---
+type: objetivo
+created: {{date}}
+updated: {{date}}
+area:
+ano:
+status: verde
+---
+# {{title}}
+**Por que importa:**
+
+## Projeto ligado
+## Como vou medir
+
+---
+
+## Linha do tempo
+- {{date}} — objetivo definido

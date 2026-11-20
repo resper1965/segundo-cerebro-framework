@@ -1,0 +1,22 @@
+id: teses
+nome: Teses
+descricao: Uma nota por tese com argumentos, jurisprudência-chave, peças onde foi usada e resultado.
+depende_de: [casos, modelos]
+pasta: 12-teses
+entra: "É uma tese jurídica reutilizável"
+nao_entra: "A peça em si (fica no acervo, linkada)."
+mapa:
+  titulo: "🧠 Teses"
+  colunas: [Tese, Área, Resultado, Peças, Atualizada em]
+template: template-tese
+fontes: []
+implantacao:
+  - {id: M-teses.1, fase: 2, titulo: Levantar as 10 teses mais usadas, quem: consultor, gate: false, saida: 12-teses/, pronto_quando: 10 teses no mapa}
+  - {id: M-teses.2, fase: 3, titulo: Ligar 3 teses a peças reais no acervo, quem: agente, gate: true, saida: 12-teses/, pronto_quando: 3 teses com peças e resultado}
+checks: ["toda tese tem 'resultado' preenchido ou 'pendente'"]
+sistema: {modo: canonico}
+cloudflare:
+  metadados: [{campo: tese, de: frontmatter}, {campo: area, de: frontmatter}]
+  rotinas: [{nome: tese-sem-resultado, cron: "0 9 * * 1", acao: "listar teses com resultado pendente no hot.md"}]
+agentes:
+  - "Quando sair decisão num caso, proponha atualizar o resultado das teses usadas (proposta na inbox)."

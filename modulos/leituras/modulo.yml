@@ -1,0 +1,20 @@
+id: leituras
+nome: Leituras
+descricao: Livros e artigos com resumo, ideias que vou usar e ligações.
+depende_de: []
+pasta: 16-leituras
+entra: "É uma leitura (livro, artigo longo) com notas próprias"
+nao_entra: "Trechos longos copiados da obra."
+mapa:
+  titulo: "📚 Leituras"
+  colunas: [Título, Autor, Status, Nota]
+template: template-leitura
+fontes: []
+implantacao: []
+checks: []
+sistema: {modo: canonico}
+cloudflare:
+  metadados: []
+  rotinas: []
+agentes:
+  - "Resuma com palavras próprias; nada de reproduzir trechos longos."

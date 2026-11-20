@@ -1,0 +1,24 @@
+id: casos
+nome: Casos
+descricao: Uma nota por caso/processo com estratégia, partes, fase e próximos prazos; documentos ficam no acervo.
+depende_de: [clientes]
+pasta: 11-casos
+entra: "É um caso ou processo em que atuamos"
+nao_entra: "Peças, decisões e documentos do processo (ficam no acervo/GED); andamentos (ficam no sistema processual)."
+mapa:
+  titulo: "⚖️ Casos"
+  colunas: [Caso, Cliente, Nº CNJ, Fase, Próximo prazo]
+template: template-caso
+fontes:
+  - {fonte: Sistema processual, o_que: "andamentos e prazos oficiais", nao_duplicar: "o andamento"}
+  - {fonte: GED, o_que: "peças e decisões", nao_duplicar: "o documento"}
+implantacao:
+  - {id: M-casos.1, fase: 2, titulo: Criar notas dos casos ativos prioritários com numero_cnj, quem: agente, gate: false, saida: 11-casos/, pronto_quando: Casos prioritários no mapa}
+checks: ["todo caso tem numero_cnj ou 'pre-processual'"]
+sistema: {modo: espelho-destilado, fonte: Sistema processual, chave: numero_cnj, consulta: ao_vivo, digest: diario, escrita: com_aprovacao}
+cloudflare:
+  metadados: [{campo: caso, de: frontmatter}, {campo: cliente, de: frontmatter}]
+  rotinas: [{nome: prazos-proximos, cron: "0 8 * * *", acao: "listar no hot.md prazos dos próximos 7 dias"}]
+agentes:
+  - "Nunca copie conteúdo de peça para o cérebro: registre estratégia e linke o documento no acervo."
+  - "Respeite a barreira de acesso por caso: só responda sobre casos que o usuário pode ver."

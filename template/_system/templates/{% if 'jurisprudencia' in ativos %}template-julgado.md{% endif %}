@@ -1,0 +1,21 @@
+---
+type: julgado
+created: {{date}}
+updated: {{date}}
+tribunal:
+numero:
+data_julgamento:
+tema:
+tags: []
+---
+# {{title}}
+**Ementa resumida (palavras próprias):**
+
+## Como usar
+## Teses relacionadas
+## Inteiro teor (link)
+
+---
+
+## Linha do tempo
+- {{date}} — julgado curado
