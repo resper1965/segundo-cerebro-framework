@@ -1,0 +1,13 @@
+---
+type: mapa
+created: {{ hoje }}
+updated: {{ hoje }}
+---
+# 🔌 Fontes — onde vive o que não está no cérebro
+> O cérebro guarda raciocínio, contexto e decisões. Dados e documentos ficam nas fontes. Agentes consultam esta tabela antes de responder (skill `rotear-fontes`).
+
+| Fonte | O que mora lá | Não duplicar no cérebro | Como consultar |
+|---|---|---|---|
+| Acervo (R2) | documentos originais | o documento | link `r2://acervo/...` |
+{% for m in mods %}{% for f in m.fontes | default([]) %}| {{ f.fonte }} | {{ f.o_que }} | {{ f.nao_duplicar }} | {{ m.sistema.consulta | default('link') }} |
+{% endfor %}{% endfor %}

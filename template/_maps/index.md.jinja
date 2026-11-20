@@ -1,0 +1,27 @@
+---
+type: mapa
+created: {{ hoje }}
+updated: {{ hoje }}
+---
+# 🗺️ Index — {{ nome }}
+Mapa raiz. Todo mapa deve estar linkado aqui.
+
+## Agora
+- [[_maps/hot]] — contexto quente
+
+## Mapas
+- [[_maps/mapa-projetos]]
+- [[_maps/mapa-areas]]
+- [[_maps/mapa-pessoas]]
+- [[_maps/mapa-recursos]]
+{% for m in mods %}- [[_maps/mapa-{{ m.id }}]] — {{ m.nome }}
+{% endfor %}
+## Memória institucional
+- [[_maps/decisoes]] — log de decisões
+- [[_maps/glossario]] — siglas e termos da casa
+- [[_maps/fontes]] — onde vive o que não está no cérebro
+
+## Sistema
+- [[_system/AGENTS]] — regras para agentes
+- [[_system/convencoes]] — convenções
+- `RESOLVER.md` — onde arquivar cada coisa

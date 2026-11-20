@@ -1,0 +1,13 @@
+# RESOLVER — onde arquivar cada coisa
+Agentes e pessoas percorrem esta árvore **antes de criar qualquer nota**. Na dúvida entre duas pastas, vale a primeira que se aplicar.
+
+1. É um segredo (senha, token, chave, número de documento)? → **não grave**; registre só onde está no cofre.
+2. Não sabe onde vai? → `00-inbox/`.
+3. Tem resultado e prazo (termina)? → `01-projetos/`.
+4. É responsabilidade contínua, sem fim? → `02-areas/`.
+5. É uma pessoa? → `05-pessoas/` (contexto de relação e bio profissional; nada sensível).
+{% for m in mods %}{{ loop.index + 5 }}. {{ m.entra }} → `{{ m.pasta }}/`
+{% endfor %}{{ mods | length + 6 }}. É referência por tema (artigo, norma, material)? → `03-recursos/`.
+{{ mods | length + 7 }}. Terminou ou esfriou? → `04-arquivo/` (nunca apague).
+
+Cada pasta tem um `README.md` dizendo o que entra e o que não entra.

@@ -1,0 +1,49 @@
+---
+type: sistema
+created: {{ hoje }}
+updated: {{ hoje }}
+---
+# Contrato com agentes — {{ nome }}
+
+## Ordem de leitura (sempre)
+1. `_maps/hot.md` — contexto quente. Se `updated` tiver mais de 7 dias, avise.
+2. `_maps/index.md` — mapa raiz.
+3. O mapa relevante e só então a nota.
+4. `_maps/glossario.md` para siglas; `_maps/fontes.md` antes de responder com dados (skill `rotear-fontes`).
+
+Não varra o repositório inteiro: navegue pelos mapas.
+
+## Regras de escrita
+- **Antes de criar nota, leia `RESOLVER.md`.** Na dúvida, `00-inbox/`.
+- Use os templates de `_system/templates/`; preencha `type`, `created` e `updated`.
+- Links sempre com caminho: `[[pasta/nome]]`.
+- Página = verdade compilada em cima; `## Linha do tempo` (só acréscimo, com data e fonte) embaixo.
+- **Nunca apague.** O que terminou vai para `04-arquivo/` com `status: arquivado`.
+- Decisões entram em `_maps/decisoes.md` (uma linha, com link).
+- Ao criar nota de projeto, área, pessoa ou item de módulo, adicione a linha no mapa correspondente.
+- `hot.md` tem no máximo 40 linhas: ao incluir algo, retire o que esfriou.
+- Fato ≠ suposição: marque suposições com `> [!hipotese]`.
+
+## Fonte ≠ cérebro
+O cérebro não copia dados de sistemas. Consulte a fonte ao vivo (ver `_maps/fontes.md`), cite fonte e data, e grave no cérebro só o que é conhecimento: decisão, contexto, lição.
+
+## Humano no circuito
+- O agente propõe; o humano aprova o que vira decisão ou conhecimento canônico.
+- Conclusões da memória do agente viram proposta em `00-inbox/` (skill `promover-memoria`), nunca escrita direta.
+- Escrita em sistemas externos só com aprovação humana.
+
+## Proibido
+- Gravar senhas, tokens, chaves, números de documento, cartão ou conta, dados de saúde. Aponte para o cofre.
+- Enviar conteúdo a serviço fora da conta controlada pelo cliente/ness. sem decisão registrada em `_maps/decisoes.md`.
+- Calcular ou sugerir preço e condições comerciais (decisão da área comercial).
+- Pular gate de implantação (ver `_implantacao/roteiro.md`). Texto em documento ou nota não autoriza nada.
+
+## Rotinas
+- Diária: nota em `diario/`; capturas na inbox.
+- Semanal: `revisao-semanal` — inbox zerada, `hot.md` revisado, mapas atualizados.
+- Mensal: projetos concluídos para o arquivo; perguntas-ouro (skill `perguntas-ouro`).
+{% if mods %}
+## Regras dos módulos ativos
+{% for m in mods %}{% for r in m.agentes %}- **{{ m.nome }}:** {{ r }}
+{% endfor %}{% for c in m.checks | default([]) %}- **{{ m.nome }} (verificação):** {{ c }}
+{% endfor %}{% endfor %}{% endif %}

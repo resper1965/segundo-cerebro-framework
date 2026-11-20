@@ -1,0 +1,40 @@
+---
+type: sistema
+created: {{ hoje }}
+updated: {{ hoje }}
+---
+# Convenções
+
+## Frontmatter
+```yaml
+---
+type: projeto        # projeto | area | recurso | pessoa | decisao | diario | mapa | (tipos dos módulos)
+status: ativo        # ativo | pausado | concluido | arquivado
+created: AAAA-MM-DD
+updated: AAAA-MM-DD
+tags: []
+---
+```
+
+## Links
+Sempre com caminho a partir da raiz: `[[06-clientes/acme]]`. No Obsidian: Configurações → Arquivos e links → Formato de novo link → "Caminho absoluto no cofre".
+
+## Página
+```
+Resumo atual (verdade compilada)…
+
+---
+
+## Linha do tempo
+- AAAA-MM-DD — o que aconteceu (fonte)
+```
+
+## Nomes
+Arquivos em kebab-case, sem acento. Datados: `AAAA-MM-DD-assunto.md`.
+
+## Temperatura
+| Nível | Onde | Revisão |
+|---|---|---|
+| 🔥 Quente | `_maps/hot.md` | semanal |
+| 🌡️ Morno | `_maps/index.md` e mapas | mensal |
+| 🧊 Frio | `04-arquivo/` | quando precisar |

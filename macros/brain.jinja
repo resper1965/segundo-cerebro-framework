@@ -1,0 +1,23 @@
+{% macro mapa(m, hoje) -%}
+---
+type: mapa
+created: {{ hoje }}
+updated: {{ hoje }}
+---
+# {{ m.mapa.titulo }}
+Pasta: `{{ m.pasta }}/`. Ao criar uma nota lá, adicione uma linha aqui com link no formato `[[pasta/nome]]`.
+
+| {{ m.mapa.colunas | join(' | ') }} |
+|{% for c in m.mapa.colunas %}---|{% endfor %}
+{% endmacro %}
+
+{% macro readme(m) -%}
+# {{ m.pasta }} — {{ m.nome }}
+{{ m.descricao }}
+
+**O que entra:** {{ m.entra }}
+
+**O que não entra:** {{ m.nao_entra }}
+
+Template: `_system/templates/{{ m.template }}.md` · Mapa: `_maps/mapa-{{ m.id }}.md`
+{% endmacro %}
