@@ -127,7 +127,9 @@ cloudflare:
 
 **Regras:** autocontido; aditivo (só acrescenta); escreve apenas nos pontos de extensão do núcleo — `index.md`, `fontes.md`, `AGENTS.md`, `RESOLVER.md`, `_implantacao/roteiro.md`, `brain-check`; dependências ativadas automaticamente pelo Copier.
 
-**Módulos v1:** núcleo (inclui pessoas) · empresariais: `clientes`, `fornecedores`, `processos`, `sistemas`, `okrs` · jurídicos: `casos`, `teses`, `modelos`, `jurisprudencia` · pessoais: `objetivos`, `leituras`.
+**Módulos v1:** núcleo (inclui pessoas) · empresariais: `clientes`, `fornecedores`, `processos`, `sistemas`, `okrs` · jurídicos: `casos`, `teses`, `modelos`, `jurisprudencia` · pessoais: `objetivos`, `leituras` · transversais (opcionais em qualquer vertical): `design-system`.
+
+**Módulo `design-system`:** `11-design-system/` com `tokens.json` (W3C DTCG), `design.md` (regras de uso para agentes), `voz-e-tom.md`; logos, fontes e imagens no acervo (R2), só linkados. Se o cliente já tem DS em Figma/Storybook, o cérebro guarda tokens exportados e regras destiladas e aponta a fonte em `fontes.md`; se não tem, o cérebro é a casa canônica. Etapas: F1 inventário de ativos de marca; F2 captura de tokens e regras; F3 (gate) agente gera documento de teste só com o DS e o cliente confirma fidelidade. Skill de operação `aplicar-marca`; Worker MCP expõe `get_tokens` e `get_regras`.
 
 **Verticais v1:** `pessoal` = núcleo + objetivos + leituras · `empresa` = núcleo + clientes + fornecedores + processos + sistemas + okrs · `juridico` = empresa + casos + teses + modelos + jurisprudencia.
 
@@ -181,6 +183,7 @@ gate: true
 | `promover-memoria` | Conclusão da memória do agente → proposta no `00-inbox/` (nunca escrita direta) |
 | `rotear-fontes` | Consulta `fontes.md` antes de responder; cita fonte e data |
 | `perguntas-ouro` | Roda a bateria de aceitação e grava o resultado |
+| `aplicar-marca` | (módulo design-system) Aplica tokens, regras e voz da marca a qualquer entregável |
 
 **Fonte única:** cada skill é um `SKILL.md` no kit; o mesmo texto instrui o agente do consultor e o agente do cliente na Cloudflare (carregado como instrução da rotina agendada).
 
