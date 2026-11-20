@@ -1,0 +1,21 @@
+id: onboarding
+nome: Onboarding
+descricao: Guia de quem chega — comece aqui, quem é quem, como trabalhamos, primeiros 30 dias.
+depende_de: []
+pasta: 19-onboarding
+entra: "É um guia para quem está chegando"
+nao_entra: "Políticas formais (vão para governança)."
+mapa:
+  titulo: "🚪 Onboarding"
+  colunas: [Página, Para quem, Atualizada em]
+template: template-guia
+fontes: []
+implantacao:
+  - {id: M-onboarding.1, fase: 5, titulo: Revisar o comece-aqui com uma pessoa recém-chegada, quem: cliente, gate: false, saida: 19-onboarding/comece-aqui.md, pronto_quando: Recém-chegado validou o guia}
+checks: []
+sistema: {modo: canonico}
+cloudflare:
+  metadados: []
+  rotinas: []
+agentes:
+  - "Perguntas de quem é novo começam por 19-onboarding/comece-aqui.md."

@@ -1,0 +1,18 @@
+---
+type: leitura
+created: {{date}}
+updated: {{date}}
+autor:
+status: lendo
+tags: [leitura]
+---
+# {{title}}
+**Em uma frase:**
+
+## Ideias que vou usar
+## Ligações
+
+---
+
+## Linha do tempo
+- {{date}} — comecei a ler

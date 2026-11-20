@@ -1,0 +1,21 @@
+---
+type: fornecedor
+created: {{date}}
+updated: {{date}}
+categoria:
+criticidade: media
+contrato_ate:
+dono_interno:
+tags: []
+---
+# {{title}}
+**O que fornece:**
+
+## Contrato e SLA
+## Avaliação de risco (segurança, privacidade, continuidade)
+## Contatos
+
+---
+
+## Linha do tempo
+- {{date}} — nota criada

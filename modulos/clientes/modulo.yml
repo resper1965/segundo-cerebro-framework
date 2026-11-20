@@ -1,0 +1,22 @@
+id: clientes
+nome: Clientes
+descricao: Uma nota por cliente com contexto do negócio, pessoas, o que compram de nós e estratégia da conta.
+depende_de: []
+pasta: 06-clientes
+entra: "É um cliente (ou prospect) e o que sabemos sobre ele"
+nao_entra: "Funil, valores e atividades (ficam no CRM); contratos assinados (ficam no acervo)."
+mapa:
+  titulo: "🤝 Clientes"
+  colunas: [Cliente, Status, Contato principal, Próximo passo]
+template: template-cliente
+fontes:
+  - {fonte: CRM, o_que: "funil, estágios, valores, atividades", nao_duplicar: "o registro da oportunidade"}
+implantacao:
+  - {id: M-clientes.1, fase: 2, titulo: Criar notas dos 10 clientes principais com crm_id, quem: agente, gate: false, saida: 06-clientes/, pronto_quando: 10 notas no mapa}
+checks: ["todo cliente tem status preenchido"]
+sistema: {modo: espelho-destilado, fonte: CRM, chave: crm_id, consulta: ao_vivo, digest: semanal, escrita: com_aprovacao}
+cloudflare:
+  metadados: [{campo: cliente, de: frontmatter}]
+  rotinas: [{nome: clientes-parados, cron: "0 9 * * 1", acao: "listar no hot.md contas sem atualização há 30 dias"}]
+agentes:
+  - "Antes de responder sobre um cliente, leia a nota e consulte o CRM ao vivo pelo crm_id; cite fonte e data."

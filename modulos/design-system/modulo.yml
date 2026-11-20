@@ -1,0 +1,24 @@
+id: design-system
+nome: Design system
+descricao: Identidade da marca para pessoas e agentes — tokens, regras de uso e voz.
+depende_de: []
+pasta: 17-design-system
+entra: "É uma regra, token ou componente da marca"
+nao_entra: "Arquivos de design (ficam no Figma/Storybook); logos, fontes e imagens (ficam no acervo, linkados)."
+mapa:
+  titulo: "🎨 Design system"
+  colunas: [Elemento, Arquivo, Fonte, Atualizado em]
+template: template-componente
+fontes:
+  - {fonte: Figma/Storybook, o_que: "componentes e telas", nao_duplicar: "o arquivo de design"}
+implantacao:
+  - {id: M-design-system.1, fase: 1, titulo: Inventariar ativos de marca e onde vivem, quem: consultor, gate: false, saida: 17-design-system/, pronto_quando: Ativos listados no mapa}
+  - {id: M-design-system.2, fase: 2, titulo: Capturar tokens e regras de uso, quem: agente, gate: false, saida: 17-design-system/tokens.json, pronto_quando: tokens.json e design.md preenchidos}
+  - {id: M-design-system.3, fase: 3, titulo: Gerar documento de teste só com o DS e validar com o cliente, quem: agente, gate: true, saida: documento de teste, pronto_quando: Cliente confirma fidelidade à marca}
+checks: ["tokens.json é JSON válido"]
+sistema: {modo: canonico}
+cloudflare:
+  metadados: []
+  rotinas: []
+agentes:
+  - "Antes de produzir qualquer entregável, aplique a marca (skill aplicar-marca)."

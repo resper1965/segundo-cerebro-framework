@@ -1,0 +1,30 @@
+---
+type: oferta
+created: {{date}}
+updated: {{date}}
+status: ativa
+sku:
+tags: []
+---
+# {{title}}
+**Problema que resolve:**
+**Para quem:** (perfil de cliente ideal e gatilhos de compra)
+
+## Entregáveis
+## Escopo
+## Fora do escopo
+## Premissas e pré-requisitos do cliente
+## Como entregamos (metodologia e fases)
+## Equipe típica
+## Diferenciais
+## Objeções frequentes e respostas
+## Cases autorizados
+## Relações (bundles, upgrades, complementares)
+## Materiais (acervo)
+## Preço
+Não registrado aqui: consulte a tabela da área comercial (ver `_maps/fontes.md`).
+
+---
+
+## Linha do tempo
+- {{date}} — oferta registrada

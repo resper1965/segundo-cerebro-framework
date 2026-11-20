@@ -1,0 +1,22 @@
+id: governanca
+nome: Governança
+descricao: Políticas, riscos, controles, incidentes e lições aprendidas; privacidade (mapa de tratamentos e encarregado) sem dado pessoal.
+depende_de: []
+pasta: 20-governanca
+entra: "É uma política, risco, controle, incidente ou lição aprendida"
+nao_entra: "Evidências e registros detalhados (ficam na plataforma de GRC ou no acervo); dados pessoais de titulares."
+mapa:
+  titulo: "🛡️ Governança"
+  colunas: [Item, Tipo, Dono, Status, Revisão]
+template: template-governanca
+fontes:
+  - {fonte: Plataforma de GRC, o_que: "controles, evidências, auditorias", nao_duplicar: "a evidência"}
+implantacao:
+  - {id: M-governanca.1, fase: 2, titulo: Registrar políticas vigentes e riscos principais com dono, quem: agente, gate: false, saida: 20-governanca/, pronto_quando: Políticas e riscos principais no mapa}
+checks: ["todo item tem dono e data de revisão"]
+sistema: {modo: canonico}
+cloudflare:
+  metadados: [{campo: tipo, de: frontmatter}]
+  rotinas: [{nome: revisoes-vencidas, cron: "0 9 1 * *", acao: "listar no hot.md itens com revisão vencida"}]
+agentes:
+  - "Nunca registre dado pessoal de titular; use apenas referências ao sistema de origem."

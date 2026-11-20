@@ -1,0 +1,26 @@
+---
+type: processo
+created: {{date}}
+updated: {{date}}
+area:
+dono:
+versao: v1
+tags: [processo]
+---
+# {{title}}
+**Objetivo:**
+**Gatilho (quando roda):**
+
+## Entradas e saídas
+## Passo a passo
+1.
+2.
+## RACI
+| Etapa | R | A | C | I |
+|---|---|---|---|---|
+## Controles e evidências
+
+---
+
+## Linha do tempo
+- {{date}} — v1

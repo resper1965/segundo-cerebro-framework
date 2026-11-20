@@ -1,0 +1,21 @@
+---
+type: governanca
+created: {{date}}
+updated: {{date}}
+tipo: politica
+dono:
+status: vigente
+revisao:
+tags: []
+---
+# {{title}}
+**Resumo:** (o que é e por que existe)
+
+## Escopo
+## Requisitos ou tratamento
+## Evidências (onde ficam)
+
+---
+
+## Linha do tempo
+- {{date}} — registrado

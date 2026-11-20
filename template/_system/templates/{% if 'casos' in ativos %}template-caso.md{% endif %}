@@ -1,0 +1,22 @@
+---
+type: caso
+created: {{date}}
+updated: {{date}}
+cliente:
+numero_cnj:
+fase:
+proximo_prazo:
+tags: []
+---
+# {{title}}
+**Estratégia atual:** (em 3 linhas)
+
+## Partes e juízo
+## Teses em uso
+## Documentos (acervo)
+## Riscos
+
+---
+
+## Linha do tempo
+- {{date}} — caso aberto

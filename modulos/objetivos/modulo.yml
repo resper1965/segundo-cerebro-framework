@@ -1,0 +1,21 @@
+id: objetivos
+nome: Objetivos
+descricao: O que a pessoa quer atingir no ano, por área de vida, ligado a projetos.
+depende_de: []
+pasta: 15-objetivos
+entra: "É um objetivo pessoal de médio prazo"
+nao_entra: "Tarefas do dia (vão para o diário ou projetos)."
+mapa:
+  titulo: "🎯 Objetivos"
+  colunas: [Área, Objetivo do ano, Projeto ligado, Status]
+template: template-objetivo
+fontes: []
+implantacao:
+  - {id: M-objetivos.1, fase: 2, titulo: Registrar os objetivos do ano, quem: cliente, gate: false, saida: 15-objetivos/, pronto_quando: Objetivos no mapa}
+checks: []
+sistema: {modo: canonico}
+cloudflare:
+  metadados: []
+  rotinas: []
+agentes:
+  - "Na revisão semanal, verifique se cada objetivo tem um projeto ativo."

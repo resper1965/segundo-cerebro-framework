@@ -1,0 +1,20 @@
+---
+type: modelo
+created: {{date}}
+updated: {{date}}
+tipo_peca:
+area:
+aprovado_por:
+versao: v1
+tags: [modelo]
+---
+# {{title}}
+**Quando usar:**
+
+## Documento (acervo)
+## Pontos de atenção
+
+---
+
+## Linha do tempo
+- {{date}} — v1

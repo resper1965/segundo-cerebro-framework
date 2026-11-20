@@ -1,0 +1,73 @@
+_min_copier_version: "9.4"
+_subdirectory: template
+_answers_file: .copier-answers.yml
+_jinja_extensions:
+  - copier_template_extensions.TemplateExtensionLoader
+  - extensions/contexto.py:Contexto
+_skip_if_exists:
+  - _maps/hot.md
+  - _maps/decisoes.md
+  - _maps/glossario.md
+  - _maps/fontes.md
+  - _maps/mapa-*.md
+  - _implantacao/status.md
+  - _implantacao/perguntas-ouro.md
+
+nome:
+  type: str
+  help: Nome do cérebro (cliente ou pessoa)
+  validator: "{% if not nome %}Informe um nome{% endif %}"
+
+vertical:
+  type: str
+  help: Vertical
+  choices:
+    Pessoal: pessoal
+    Empresa: empresa
+    Jurídico: juridico
+    Personalizada: personalizada
+  default: empresa
+
+verticais:
+  type: yaml
+  when: false
+  default:
+    pessoal: [objetivos, leituras]
+    empresa: [clientes, fornecedores, processos, sistemas, okrs]
+    juridico: [clientes, fornecedores, processos, sistemas, okrs, casos, teses, modelos, jurisprudencia]
+    personalizada: []
+
+modulos:
+  type: str
+  multiselect: true
+  help: Módulos ativos (dependências entram automaticamente)
+  choices:
+    - clientes
+    - fornecedores
+    - processos
+    - sistemas
+    - okrs
+    - casos
+    - teses
+    - modelos
+    - jurisprudencia
+    - objetivos
+    - leituras
+    - design-system
+    - reunioes
+    - onboarding
+    - governanca
+    - ofertas
+    - propostas
+    - contratos
+  default: "{{ verticais[vertical] }}"
+
+responsavel:
+  type: str
+  help: Consultor responsável pela implantação
+  default: ""
+
+obsidian:
+  type: bool
+  help: Incluir preset do Obsidian?
+  default: true

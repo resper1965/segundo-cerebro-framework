@@ -1,0 +1,31 @@
+---
+type: sistema
+created: {{date}}
+updated: {{date}}
+categoria:
+dono:
+criticidade: media
+dados_pessoais: false
+tags: []
+---
+# {{title}}
+**Função:** (para que serve e quais processos atende)
+
+## Fornecedor e contrato
+## Dados que guarda
+## Integrações
+## Acesso
+(SSO, perfis — credencial nunca: só o ponteiro para o cofre)
+
+## Como consumir
+- **Método:** MCP | API | export
+- **Escopo de leitura:**
+- **Exemplos de pergunta:**
+- **Digest:** (frequência e o que destilar, ou "não")
+
+## Criticidade e plano B
+
+---
+
+## Linha do tempo
+- {{date}} — nota criada

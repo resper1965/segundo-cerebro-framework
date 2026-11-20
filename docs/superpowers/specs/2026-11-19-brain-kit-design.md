@@ -48,16 +48,29 @@ Kit para criar e implantar "cérebros" (segundos cérebros) empresariais e pesso
 
 ```
 brain-kit/
-  copier.yml              # questionário: nome, vertical, módulos, responsável; migrações
-  template/               # o que vira o cérebro (Jinja, pastas condicionais por módulo)
-  modulos/<id>/           # módulos autocontidos (ver §5)
-  verticais/              # pessoal.yml, empresa.yml, juridico.yml (listas de módulos)
-  skills/                 # implantar-cerebro + skills de operação (SKILL.md)
-  ferramentas/            # brain-check, gitleaks (pre-commit), preset Obsidian
-  cloudflare/             # Worker MCP, agente (Agents SDK), configs wrangler de referência
-  metodologia/            # princípios (§3) explicados para consultores
-  tests/                  # ver §9
-  CHANGELOG.md
+  copier.yml                         # perguntas, verticais, extensões, skip_if_exists
+  requirements-dev.txt               # dependências
+  pyproject.toml                     # só configuração do pytest
+  extensions/
+    modulos_lib.py                   # carregar/resolver/validar módulos; carregar fases
+    contexto.py                      # ContextHook do Copier
+  macros/brain.jinja                 # macros mapa() e readme()
+  modulos/<id>/modulo.yml            # contrato de cada módulo (18)
+  fases/nucleo.yml                   # fases F0–F5 e etapas do núcleo
+  tools/novo_modulo.py               # cria README/mapa condicionais de um módulo
+  template/                          # tudo que vira o cérebro
+    {{_copier_conf.answers_file}}.jinja
+    CLAUDE.md, AGENTS.md, RESOLVER.md.jinja, .pre-commit-config.yaml
+    00-inbox/ … 05-pessoas/, diario/ (README.md)
+    _maps/  hot, index, fontes, decisoes, glossario, mapa-projetos|areas|pessoas|recursos (.md.jinja)
+    _implantacao/ roteiro.md.jinja, status.md.jinja, perguntas-ouro.md.jinja
+    _system/ AGENTS.md.jinja, convencoes.md.jinja, templates/*.md, skills/*/SKILL.md, ferramentas/brain_check.py
+    {% if obsidian %}.obsidian{% endif %}/app.json, templates.json
+    (arquivos condicionais dos módulos)
+  tests/ conftest.py, test_modulos_lib.py, test_nucleo.py, test_fases.py, test_brain_check.py,
+         test_geracao.py, test_modulos.py, test_transversais.py, test_verticais.py, test_skills.py,
+         test_update.py, test_matriz.py
+  metodologia/principios.md, README.md, CHANGELOG.md
 ```
 
 ### 4.2 Cérebro gerado (núcleo, sempre presente)
@@ -97,39 +110,35 @@ RESOLVER.md  CLAUDE.md  .copier-answers.yml  .pre-commit-config.yaml
 
 ## 5. Contrato de módulo
 
-```
-modulos/<id>/
-  modulo.yml        # contrato
-  conteudo/         # pastas, mapas, templates, READMEs
-  implantacao.md    # descrição das etapas que pluga
-  agentes.md        # regras acrescentadas ao AGENTS.md
-```
+`modulos/<id>/modulo.yml` (contrato, incluindo `agentes` e `implantacao`); conteúdo do módulo em `template/` com caminhos condicionais `{% if '<id>' in ativos %}`.
+
+Pastas dos módulos (numeração única global): `06-clientes`, `07-fornecedores`, `08-processos`, `09-sistemas`, `10-okrs`, `11-casos`, `12-teses`, `13-modelos`, `14-jurisprudencia`, `15-objetivos`, `16-leituras`, `17-design-system`, `18-reunioes`, `19-onboarding`, `20-governanca`, `21-ofertas`, `22-propostas`, `23-contratos`. Na v0.1, os `checks:` são renderizados em `_system/AGENTS.md` e verificados pela skill `implantar-cerebro` na F2.6; a automação no `brain-check` fica para a v0.2.
+
+Exemplo real (`modulos/teses/modulo.yml`):
 
 ```yaml
 id: teses
-nome: Teses jurídicas
-descricao: Uma nota por tese, com argumentos, peças onde foi usada e resultado.
+nome: Teses
+descricao: Uma nota por tese com argumentos, jurisprudência-chave, peças onde foi usada e resultado.
 depende_de: [casos, modelos]
-pastas: [10-teses]
-mapas: [mapa-teses]
-templates: [template-tese]
-fontes:
-  - {fonte: GED, o_que: "peças e decisões", nao_duplicar: "o documento"}
+pasta: 12-teses
+entra: "É uma tese jurídica reutilizável"
+nao_entra: "A peça em si (fica no acervo, linkada)."
+mapa:
+  titulo: "🧠 Teses"
+  colunas: [Tese, Área, Resultado, Peças, Atualizada em]
+template: template-tese
+fontes: []
 implantacao:
-  - {id: M-teses.1, fase: 2, titulo: "Levantar as 10 teses mais usadas", quem: consultor, gate: false}
-  - {id: M-teses.2, fase: 3, titulo: "Ligar 3 teses a peças reais no acervo", quem: agente, gate: true}
-checks:
-  - "toda tese tem 'resultado' preenchido ou 'pendente'"
-sistema:
-  modo: espelho-destilado   # ou: canonico (sem sistema, o cérebro é a casa)
-  fonte: GED
-  chave: ged_id             # campo de ligação no frontmatter
-  consulta: ao_vivo         # via MCP/API; nada é copiado
-  digest: semanal           # opcional, só mudanças relevantes
-  escrita: com_aprovacao
+  - {id: M-teses.1, fase: 2, titulo: Levantar as 10 teses mais usadas, quem: consultor, gate: false, saida: 12-teses/, pronto_quando: 10 teses no mapa}
+  - {id: M-teses.2, fase: 3, titulo: Ligar 3 teses a peças reais no acervo, quem: agente, gate: true, saida: 12-teses/, pronto_quando: 3 teses com peças e resultado}
+checks: ["toda tese tem 'resultado' preenchido ou 'pendente'"]
+sistema: {modo: canonico}
 cloudflare:
-  metadados: [{campo: tese, de: frontmatter}]
-  rotinas: [{nome: tese-sem-resultado, cron: "0 9 * * 1", acao: "listar teses pendentes no hot.md"}]
+  metadados: [{campo: tese, de: frontmatter}, {campo: area, de: frontmatter}]
+  rotinas: [{nome: tese-sem-resultado, cron: "0 9 * * 1", acao: "listar teses com resultado pendente no hot.md"}]
+agentes:
+  - "Quando sair decisão num caso, proponha atualizar o resultado das teses usadas (proposta na inbox)."
 ```
 
 **Regras:** autocontido; aditivo (só acrescenta); escreve apenas nos pontos de extensão do núcleo — `index.md`, `fontes.md`, `AGENTS.md`, `RESOLVER.md`, `_implantacao/roteiro.md`, `brain-check`; dependências ativadas automaticamente pelo Copier.
@@ -155,7 +164,7 @@ Encadeamento: `ofertas` → `propostas` (puxa escopo, entregáveis, premissas e 
 
 **Bio profissional (núcleo, em `05-pessoas/`):** a nota de pessoa da equipe ganha uma seção `bio` para reúso em propostas, apresentações e sites: versões curta (~50 palavras), média (~120) e longa; idiomas pt/en; formação, certificações, áreas de atuação, cases autorizados; foto no acervo (R2), só linkada. Frontmatter `bio_publicavel: true` só depois de a própria pessoa aprovar o texto (aprovação registrada na linha do tempo). Só informação profissional e pública; nada de dado pessoal sensível. O módulo `propostas` monta a seção de equipe a partir dessas bios (campo `equipe:` da proposta).
 
-**Módulo `design-system`:** `11-design-system/` com `tokens.json` (W3C DTCG), `design.md` (regras de uso para agentes), `voz-e-tom.md`; logos, fontes e imagens no acervo (R2), só linkados. Se o cliente já tem DS em Figma/Storybook, o cérebro guarda tokens exportados e regras destiladas e aponta a fonte em `fontes.md`; se não tem, o cérebro é a casa canônica. Etapas: F1 inventário de ativos de marca; F2 captura de tokens e regras; F3 (gate) agente gera documento de teste só com o DS e o cliente confirma fidelidade. Skill de operação `aplicar-marca`; Worker MCP expõe `get_tokens` e `get_regras`.
+**Módulo `design-system`:** `17-design-system/` com `tokens.json` (W3C DTCG), `design.md` (regras de uso para agentes), `voz-e-tom.md`; logos, fontes e imagens no acervo (R2), só linkados. Se o cliente já tem DS em Figma/Storybook, o cérebro guarda tokens exportados e regras destiladas e aponta a fonte em `fontes.md`; se não tem, o cérebro é a casa canônica. Etapas: F1 inventário de ativos de marca; F2 captura de tokens e regras; F3 (gate) agente gera documento de teste só com o DS e o cliente confirma fidelidade. Skill de operação `aplicar-marca`; Worker MCP expõe `get_tokens` e `get_regras`.
 
 **Verticais v1:** `pessoal` = núcleo + objetivos + leituras · `empresa` = núcleo + clientes + fornecedores + processos + sistemas + okrs · `juridico` = empresa + casos + teses + modelos + jurisprudencia.
 

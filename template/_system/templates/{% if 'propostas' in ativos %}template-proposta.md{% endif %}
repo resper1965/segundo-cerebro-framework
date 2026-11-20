@@ -1,0 +1,29 @@
+---
+type: proposta
+created: {{date}}
+updated: {{date}}
+cliente:
+oferta:
+crm_id:
+equipe: []
+status: rascunho
+resultado:
+motivo:
+tags: []
+---
+# {{title}}
+**Contexto do cliente:**
+
+## Escopo (da oferta, ajustado)
+## Entregáveis
+## Premissas e exclusões
+## Equipe
+(montada a partir das bios com `bio_publicavel: true`)
+## Condições comerciais
+Definidas pela área comercial; registre aqui apenas a decisão tomada.
+## Documento enviado (acervo)
+
+---
+
+## Linha do tempo
+- {{date}} — rascunho criado

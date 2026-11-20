@@ -1,0 +1,19 @@
+---
+type: okr
+created: {{date}}
+updated: {{date}}
+ciclo:
+dono:
+status: verde
+tags: []
+---
+# {{title}}
+**Objetivo:**
+
+| KR | Meta | Atual | Dono | Status |
+|---|---|---|---|---|
+
+---
+
+## Linha do tempo
+- {{date}} — ciclo iniciado

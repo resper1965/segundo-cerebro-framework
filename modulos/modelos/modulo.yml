@@ -1,0 +1,21 @@
+id: modelos
+nome: Modelos
+descricao: Banco de peças-modelo aprovadas, com quando usar e quem aprovou.
+depende_de: []
+pasta: 13-modelos
+entra: "É uma peça-modelo aprovada para reúso"
+nao_entra: "Peças de casos concretos (ficam no acervo)."
+mapa:
+  titulo: "📄 Modelos"
+  colunas: [Modelo, Tipo de peça, Área, Aprovado por, Versão]
+template: template-modelo
+fontes: []
+implantacao:
+  - {id: M-modelos.1, fase: 2, titulo: Registrar os modelos aprovados mais usados, quem: consultor, gate: false, saida: 13-modelos/, pronto_quando: Modelos principais no mapa}
+checks: ["todo modelo tem aprovado_por"]
+sistema: {modo: canonico}
+cloudflare:
+  metadados: [{campo: tipo_peca, de: frontmatter}]
+  rotinas: []
+agentes:
+  - "Só use como base modelos com aprovado_por preenchido."

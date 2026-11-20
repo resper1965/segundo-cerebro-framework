@@ -1,0 +1,16 @@
+---
+type: guia
+created: {{date}}
+updated: {{date}}
+para_quem:
+---
+# {{title}}
+
+## O que você vai aprender
+## Passo a passo
+## Para saber mais
+
+---
+
+## Linha do tempo
+- {{date}} — guia criado

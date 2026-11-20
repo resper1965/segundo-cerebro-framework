@@ -1,0 +1,22 @@
+id: reunioes
+nome: Reuniões
+descricao: Atas ligadas a projetos, clientes e decisões, com ações e donos.
+depende_de: []
+pasta: 18-reunioes
+entra: "É o registro de uma reunião (pauta, decisões, ações)"
+nao_entra: "Gravações e transcrições brutas (ficam no acervo)."
+mapa:
+  titulo: "🗓️ Reuniões"
+  colunas: [Data, Reunião, Projeto ou cliente, Decisões, Ações abertas]
+template: template-reuniao
+fontes:
+  - {fonte: Agenda/gravações, o_que: "convites, gravações e transcrições", nao_duplicar: "a transcrição"}
+implantacao:
+  - {id: M-reunioes.1, fase: 4, titulo: Registrar as reuniões da semana com decisões e ações, quem: cliente, gate: false, saida: 18-reunioes/, pronto_quando: Reuniões da semana registradas}
+checks: ["toda ação tem dono"]
+sistema: {modo: canonico}
+cloudflare:
+  metadados: [{campo: projeto, de: frontmatter}]
+  rotinas: [{nome: acoes-vencidas, cron: "0 9 * * *", acao: "listar no hot.md ações de reunião vencidas"}]
+agentes:
+  - "Decisão tomada em reunião vira linha em _maps/decisoes.md com link para a ata."

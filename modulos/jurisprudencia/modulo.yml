@@ -1,0 +1,21 @@
+id: jurisprudencia
+nome: Jurisprudência
+descricao: Julgados curados com comentário de como usar.
+depende_de: []
+pasta: 14-jurisprudencia
+entra: "É um julgado relevante, com comentário de uso"
+nao_entra: "Inteiro teor (fica no acervo ou no site do tribunal, linkado)."
+mapa:
+  titulo: "🏛️ Jurisprudência"
+  colunas: [Julgado, Tribunal, Tema, Como usar]
+template: template-julgado
+fontes: []
+implantacao:
+  - {id: M-jurisprudencia.1, fase: 2, titulo: Curar os julgados ligados às teses principais, quem: consultor, gate: false, saida: 14-jurisprudencia/, pronto_quando: Julgados linkados às teses}
+checks: []
+sistema: {modo: canonico}
+cloudflare:
+  metadados: [{campo: tribunal, de: frontmatter}, {campo: tema, de: frontmatter}]
+  rotinas: []
+agentes:
+  - "Sempre cite tribunal, número e data do julgado."

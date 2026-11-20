@@ -1,0 +1,22 @@
+id: contratos
+nome: Contratos
+descricao: Mapa de contratos com partes, objeto, vigência, renovação, obrigações-chave e SLAs.
+depende_de: []
+pasta: 23-contratos
+entra: "É um contrato vigente ou encerrado e suas obrigações"
+nao_entra: "O contrato assinado (fica no acervo/GED/CLM)."
+mapa:
+  titulo: "📜 Contratos"
+  colunas: [Contrato, Partes, Vigência até, Renovação, Dono]
+template: template-contrato
+fontes:
+  - {fonte: GED/CLM, o_que: "contratos assinados e aditivos", nao_duplicar: "o documento"}
+implantacao:
+  - {id: M-contratos.1, fase: 2, titulo: Registrar contratos vigentes com vigência e dono, quem: agente, gate: false, saida: 23-contratos/, pronto_quando: Vigentes no mapa}
+checks: ["todo contrato tem vigencia_ate"]
+sistema: {modo: canonico}
+cloudflare:
+  metadados: [{campo: contraparte, de: frontmatter}]
+  rotinas: [{nome: vencimentos, cron: "0 9 * * 1", acao: "listar no hot.md contratos que vencem em 60 dias"}]
+agentes:
+  - "Obrigação contratual relevante vira item no hot.md quando faltarem 30 dias."

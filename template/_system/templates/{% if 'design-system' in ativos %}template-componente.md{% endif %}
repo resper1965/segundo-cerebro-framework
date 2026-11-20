@@ -1,0 +1,18 @@
+---
+type: componente
+created: {{date}}
+updated: {{date}}
+fonte:
+tags: [design-system]
+---
+# {{title}}
+**Uso:** (quando usar)
+
+## Faça
+## Evite
+## Tokens usados
+
+---
+
+## Linha do tempo
+- {{date}} — registrado
