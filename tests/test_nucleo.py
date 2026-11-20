@@ -17,6 +17,10 @@ def test_estrutura_para_e_mapas(tmp_path):
         assert (c / "_system" / "templates" / f"template-{t}.md").exists(), t
     for f in ["CLAUDE.md", "AGENTS.md", "RESOLVER.md", "_system/AGENTS.md", "_system/convencoes.md"]:
         assert (c / f).exists(), f
+    ignore = (c / ".gitignore").read_text(encoding="utf-8").splitlines()
+    assert {".obsidian/workspace*.json", ".obsidian/cache", ".DS_Store", "__pycache__/"} <= set(ignore)
+    agents = (c / "_system" / "AGENTS.md").read_text(encoding="utf-8")
+    assert "Skills (procedimentos): `_system/skills/<nome>/SKILL.md` — leia a skill antes de executá-la." in agents
 
 
 def test_hot_tem_frontmatter_e_data_de_hoje(tmp_path):

@@ -13,5 +13,5 @@ Gerado pelo brain-kit. Legível por pessoas e executável por agente (skill `imp
 **Pronto quando:** {{ f.pronto_quando }}{% if f.gate %} · **Gate de fase**{% endif %}
 
 ```yaml
-{{ f.etapas | to_nice_yaml(indent=2) }}```
+{{ f.etapas | to_nice_yaml(indent=2, sort_keys=False) }}```
 {% endfor %}

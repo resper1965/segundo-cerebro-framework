@@ -8,6 +8,7 @@
     - {id: F0.2, titulo: Preparar conta Cloudflare e Cloudflare Access (comandos gerados pela skill; consultor executa), quem: consultor, gate: false, saida: conta e aplicação Access, pronto_quando: Login via Access funcionando}
     - {id: F0.3, titulo: Criar repositório no Artifacts e enviar o cérebro, quem: consultor, gate: false, saida: remoto git no Artifacts, pronto_quando: git push concluído}
     - {id: F0.4, titulo: Ativar backup diário (git bundle) no R2, quem: consultor, gate: true, saida: bundle no R2, pronto_quando: Primeiro bundle presente e restaurável}
+    - {id: F0.5, titulo: "Ativar hooks (pre-commit install: gitleaks + brain-check)", quem: consultor, gate: false, saida: .git/hooks/pre-commit, pronto_quando: Commit de teste passa pelos hooks gitleaks e brain-check}
 
 - numero: 1
   nome: Diagnóstico
@@ -32,7 +33,7 @@
     - {id: F2.3, titulo: Preencher o primeiro hot.md, quem: agente, gate: true, saida: _maps/hot.md, pronto_quando: brain-check verde e cliente revisou}
     - {id: F2.4, titulo: Completar fontes.md com todas as fontes do diagnóstico, quem: agente, gate: false, saida: _maps/fontes.md, pronto_quando: Fontes do F1.2 presentes}
     - {id: F2.5, titulo: Criar notas das pessoas-chave e coletar bios (cada pessoa aprova a sua), quem: agente, gate: false, saida: 05-pessoas/, pronto_quando: Pessoas-chave com nota; bios aprovadas marcadas}
-    - {id: F2.6, titulo: Rodar brain-check e corrigir até ficar verde, quem: agente, gate: true, saida: relatório do brain-check, pronto_quando: Zero erros}
+    - {id: F2.6, titulo: "Rodar brain-check estrito (python3 _system/ferramentas/brain_check.py . --estrito) e corrigir até ficar verde", quem: agente, gate: true, saida: relatório do brain-check, pronto_quando: Zero erros com --estrito}
 
 - numero: 3
   nome: Conexão
@@ -63,6 +64,6 @@
   gate: true
   etapas:
     - {id: F5.1, titulo: Escrever o runbook de operação, quem: agente, gate: false, saida: 02-areas/runbook-cerebro.md, pronto_quando: Runbook revisado pelo consultor}
-    - {id: F5.2, titulo: "Montar o painel de saúde (idade do hot, notas sem updated há 90 dias, órfãs, links, perguntas-ouro, versão do kit)", quem: agente, gate: false, saida: _implantacao/saude.md, pronto_quando: Painel preenchido}
+    - {id: F5.2, titulo: "Montar o painel de saúde (idade do hot, notas sem updated há 90 dias, órfãs, links via brain-check --estrito, perguntas-ouro, versão do kit)", quem: agente, gate: false, saida: _implantacao/saude.md, pronto_quando: Painel preenchido}
     - {id: F5.3, titulo: Definir a cadência de copier update, quem: consultor, gate: false, saida: _maps/decisoes.md, pronto_quando: Cadência registrada}
     - {id: F5.4, titulo: Aceite formal do cliente, quem: cliente, gate: true, saida: _maps/decisoes.md, pronto_quando: Aceite registrado}

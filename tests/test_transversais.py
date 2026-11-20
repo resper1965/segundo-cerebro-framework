@@ -28,3 +28,11 @@ def test_ofertas_sem_preco(tmp_path):
 def test_onboarding_comece_aqui(tmp_path):
     c = gerar(tmp_path / "c", modulos=["onboarding"])
     assert "[[_maps/index]]" in (c / "19-onboarding" / "comece-aqui.md").read_text(encoding="utf-8")
+
+
+def test_reunioes_linha_do_tempo_e_fontes_no_readme(tmp_path):
+    c = gerar(tmp_path / "c", modulos=["reunioes"])
+    tpl = (c / "_system" / "templates" / "template-reuniao.md").read_text(encoding="utf-8")
+    assert tpl.endswith("\n---\n\n## Linha do tempo\n- {{date}} — reunião registrada\n")
+    readme = (c / "18-reunioes" / "README.md").read_text(encoding="utf-8")
+    assert "**Fontes**" in readme and "- Agenda/gravações — convites, gravações e transcrições" in readme

@@ -7,4 +7,4 @@ description: Propõe destino para cada item de 00-inbox seguindo o RESOLVER.md �
 2. Para cada um, percorra `RESOLVER.md` e proponha: destino (pasta e nome), tipo, links e linha no mapa.
 3. Apresente a tabela de propostas; aplique só as aprovadas.
 4. Ao mover, use o template certo, preencha frontmatter e links com caminho.
-5. Itens descartados: confirme antes de apagar; na dúvida, `04-arquivo/`.
+5. Itens descartados vão para `04-arquivo/` com `status: arquivado` — nunca apague (regra do `_system/AGENTS.md`).

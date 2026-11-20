@@ -20,4 +20,7 @@ Pasta: `{{ m.pasta }}/`. Ao criar uma nota lá, adicione uma linha aqui com link
 **O que não entra:** {{ m.nao_entra }}
 
 Template: `_system/templates/{{ m.template }}.md` · Mapa: `_maps/mapa-{{ m.id }}.md`
-{% endmacro %}
+{% if m.fontes %}
+**Fontes** (registrar em `_maps/fontes.md`; não duplicar no cérebro):
+{% for f in m.fontes %}- {{ f.fonte }} — {{ f.o_que }} (não duplicar: {{ f.nao_duplicar }})
+{% endfor %}{% endif %}{% endmacro %}
