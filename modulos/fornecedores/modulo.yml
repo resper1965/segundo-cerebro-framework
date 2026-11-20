@@ -1,0 +1,22 @@
+id: fornecedores
+nome: Fornecedores
+descricao: Uma nota por fornecedor com o que fornece, criticidade, contrato e avaliação de risco.
+depende_de: []
+pasta: 07-fornecedores
+entra: "É um fornecedor ou parceiro que nos presta serviço"
+nao_entra: "Pedidos e notas fiscais (ficam no ERP); contrato assinado (fica no acervo)."
+mapa:
+  titulo: "🏭 Fornecedores"
+  colunas: [Fornecedor, Categoria, Criticidade, Contrato até, Dono interno]
+template: template-fornecedor
+fontes:
+  - {fonte: ERP, o_que: "pedidos, pagamentos, notas fiscais", nao_duplicar: "o lançamento"}
+implantacao:
+  - {id: M-fornecedores.1, fase: 2, titulo: Registrar os fornecedores críticos com criticidade e dono, quem: agente, gate: false, saida: 07-fornecedores/, pronto_quando: Críticos no mapa}
+checks: ["todo fornecedor tem criticidade"]
+sistema: {modo: canonico}
+cloudflare:
+  metadados: [{campo: fornecedor, de: frontmatter}]
+  rotinas: []
+agentes:
+  - "Fornecedor crítico sem avaliação de risco vai para o hot.md."

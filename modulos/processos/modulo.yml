@@ -1,0 +1,21 @@
+id: processos
+nome: Processos
+descricao: Como a empresa faz as coisas — SOPs e playbooks com dono, gatilho, passos e RACI.
+depende_de: []
+pasta: 08-processos
+entra: "É um jeito padronizado de fazer algo (procedimento, playbook)"
+nao_entra: "Execuções individuais do processo (ficam nos sistemas ou nos projetos)."
+mapa:
+  titulo: "⚙️ Processos"
+  colunas: [Processo, Área, Dono, Versão, Revisado em]
+template: template-processo
+fontes: []
+implantacao:
+  - {id: M-processos.1, fase: 2, titulo: Documentar os 5 processos mais críticos, quem: consultor, gate: false, saida: 08-processos/, pronto_quando: 5 processos com dono e RACI}
+checks: ["todo processo tem dono e versão"]
+sistema: {modo: canonico}
+cloudflare:
+  metadados: [{campo: area, de: frontmatter}]
+  rotinas: []
+agentes:
+  - "Ao alterar um processo, incremente a versão e registre na linha do tempo."

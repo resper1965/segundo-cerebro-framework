@@ -1,0 +1,22 @@
+id: okrs
+nome: OKRs
+descricao: Objetivos e resultados-chave do ciclo, com dono e status.
+depende_de: []
+pasta: 10-okrs
+entra: "É um objetivo ou resultado-chave de um ciclo"
+nao_entra: "Métricas operacionais diárias (ficam no BI)."
+mapa:
+  titulo: "🎯 OKRs"
+  colunas: [Ciclo, Objetivo, KR, Dono, Status]
+template: template-okr
+fontes:
+  - {fonte: BI, o_que: "valores atuais dos indicadores", nao_duplicar: "a série histórica"}
+implantacao:
+  - {id: M-okrs.1, fase: 2, titulo: Registrar os OKRs do ciclo atual, quem: agente, gate: false, saida: 10-okrs/, pronto_quando: OKRs do ciclo no mapa}
+checks: []
+sistema: {modo: canonico}
+cloudflare:
+  metadados: [{campo: ciclo, de: frontmatter}]
+  rotinas: []
+agentes:
+  - "KR vermelho vai para o hot.md com o dono."

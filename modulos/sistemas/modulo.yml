@@ -1,0 +1,21 @@
+id: sistemas
+nome: Sistemas
+descricao: Inventário dos sistemas da empresa (ERP, CRM, mensageria…) com função, dono, dados que guardam e como consumir.
+depende_de: []
+pasta: 09-sistemas
+entra: "É um sistema ou ferramenta que a empresa usa"
+nao_entra: "Credenciais (ficam no cofre); dados do sistema (consultados ao vivo)."
+mapa:
+  titulo: "🖥️ Sistemas"
+  colunas: [Sistema, Categoria, Dono, Criticidade, Dados pessoais, Conector para agente]
+template: template-sistema
+fontes: []
+implantacao:
+  - {id: M-sistemas.1, fase: 1, titulo: Inventariar sistemas com dono e forma de consulta, quem: consultor, gate: false, saida: 09-sistemas/, pronto_quando: Todo sistema citado no diagnóstico com nota}
+checks: ["todo sistema tem seção 'Como consumir'"]
+sistema: {modo: canonico}
+cloudflare:
+  metadados: [{campo: sistema, de: frontmatter}]
+  rotinas: []
+agentes:
+  - "Consulte sistemas só leitura; escrita em sistema exige aprovação humana."

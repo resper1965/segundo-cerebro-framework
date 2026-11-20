@@ -1,0 +1,22 @@
+---
+type: cliente
+status: prospect
+created: {{date}}
+updated: {{date}}
+crm_id:
+contato:
+dono_interno:
+tags: []
+---
+# {{title}}
+**Resumo da conta:** (quem são, por que importam, situação atual)
+
+## O que compram de nós
+## Pessoas
+## Estratégia e oportunidades
+## Riscos e sensibilidades
+
+---
+
+## Linha do tempo
+- {{date}} — nota criada
