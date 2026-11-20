@@ -85,3 +85,17 @@ def _validar_arquivos(mid: str, m: dict, kit: Path) -> list[str]:
         kit / "template" / "_system" / "templates" / (cond + f"{m['template']}.md" + "{% endif %}"),
     ]
     return [f"{mid}: arquivo ausente {p.relative_to(kit)}" for p in esperados if not p.exists()]
+
+
+def carregar_fases(arquivo: Path, mods: list[dict]) -> list[dict]:
+    arquivo = Path(arquivo)
+    if not arquivo.exists():
+        return []
+    fases = yaml.safe_load(arquivo.read_text(encoding="utf-8")) or []
+    por_numero = {f["numero"]: f for f in fases}
+    for f in fases:
+        f["etapas"] = list(f.get("etapas") or [])
+    for m in mods:
+        for etapa in m.get("implantacao") or []:
+            por_numero[etapa["fase"]]["etapas"].append({**etapa, "modulo": m["id"]})
+    return fases

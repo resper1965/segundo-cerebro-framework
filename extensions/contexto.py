@@ -9,7 +9,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from copier_template_extensions import ContextHook  # noqa: E402
 
-from modulos_lib import carregar_modulos, resolver_dependencias  # noqa: E402
+from modulos_lib import carregar_fases, carregar_modulos, resolver_dependencias  # noqa: E402
 
 KIT = Path(__file__).resolve().parent.parent
 
@@ -22,3 +22,4 @@ class Contexto(ContextHook):
         context["mod"] = modulos
         context["ativos"] = ativos
         context["mods"] = [modulos[m] for m in ativos]
+        context["fases"] = carregar_fases(KIT / "fases" / "nucleo.yml", context["mods"])

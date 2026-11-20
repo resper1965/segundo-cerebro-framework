@@ -1,0 +1,17 @@
+---
+type: implantacao
+created: {{ hoje }}
+updated: {{ hoje }}
+---
+# Roteiro de implantação — {{ nome }}
+Gerado pelo brain-kit. Legível por pessoas e executável por agente (skill `implantar-cerebro`).
+
+**Regras:** gate é parada obrigatória — só se avança com aprovação registrada em `_maps/decisoes.md` (quem, quando, evidência). Etapa bloqueada: registre o motivo em `_implantacao/status.md` e leve para `_maps/hot.md`. Progresso em `_implantacao/status.md`.
+{% for f in fases %}
+## F{{ f.numero }} — {{ f.nome }}
+**Objetivo:** {{ f.objetivo }}
+**Pronto quando:** {{ f.pronto_quando }}{% if f.gate %} · **Gate de fase**{% endif %}
+
+```yaml
+{{ f.etapas | to_nice_yaml(indent=2) }}```
+{% endfor %}

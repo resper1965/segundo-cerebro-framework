@@ -3,7 +3,7 @@ from pathlib import Path
 import pytest
 import yaml
 
-from modulos_lib import carregar_modulos, resolver_dependencias, validar_modulos
+from modulos_lib import carregar_fases, carregar_modulos, resolver_dependencias, validar_modulos
 
 
 def _modulo(pasta_modulos: Path, mid: str, **campos) -> None:
@@ -62,3 +62,15 @@ def test_validar_campo_obrigatorio(tmp_path):
     (tmp_path / "z").mkdir()
     (tmp_path / "z" / "modulo.yml").write_text("id: z\n", encoding="utf-8")
     assert "z: campo obrigatório ausente 'nome'" in validar_modulos(carregar_modulos(tmp_path))
+
+
+def test_carregar_fases_mescla_etapas_de_modulo(tmp_path):
+    arq = tmp_path / "nucleo.yml"
+    arq.write_text(
+        "- numero: 2\n  nome: Estrutura\n  objetivo: o\n  pronto_quando: p\n  gate: true\n"
+        "  etapas:\n    - {id: F2.1, titulo: t, quem: consultor, gate: false}\n",
+        encoding="utf-8",
+    )
+    mods = [{"id": "teses", "implantacao": [{"id": "M-teses.1", "fase": 2, "titulo": "x", "quem": "agente", "gate": True}]}]
+    fases = carregar_fases(arq, mods)
+    assert [e["id"] for e in fases[0]["etapas"]] == ["F2.1", "M-teses.1"]

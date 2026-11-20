@@ -1,0 +1,68 @@
+- numero: 0
+  nome: Preparação
+  objetivo: Conta Cloudflare do cliente, Access, repositório no Artifacts, backup no R2 e decisão de soberania registrada.
+  pronto_quando: Repositório acessível só via Access e primeiro bundle no R2.
+  gate: true
+  etapas:
+    - {id: F0.1, titulo: "Registrar a decisão de soberania (conta, região, contrato de não treinamento)", quem: consultor, gate: true, saida: _maps/decisoes.md, pronto_quando: Linha registrada com evidência}
+    - {id: F0.2, titulo: Preparar conta Cloudflare e Cloudflare Access (comandos gerados pela skill; consultor executa), quem: consultor, gate: false, saida: conta e aplicação Access, pronto_quando: Login via Access funcionando}
+    - {id: F0.3, titulo: Criar repositório no Artifacts e enviar o cérebro, quem: consultor, gate: false, saida: remoto git no Artifacts, pronto_quando: git push concluído}
+    - {id: F0.4, titulo: Ativar backup diário (git bundle) no R2, quem: consultor, gate: true, saida: bundle no R2, pronto_quando: Primeiro bundle presente e restaurável}
+
+- numero: 1
+  nome: Diagnóstico
+  objetivo: Entender o cliente, inventariar fontes, montar glossário e perguntas-ouro, fechar vertical e módulos.
+  pronto_quando: diagnostico.md aprovado e lista de módulos fechada.
+  gate: true
+  etapas:
+    - {id: F1.1, titulo: Entrevistar dono e responsáveis por área, quem: consultor, gate: false, saida: _implantacao/diagnostico.md, pronto_quando: Entrevistas registradas}
+    - {id: F1.2, titulo: Inventariar fontes e sistemas e definir o modo sistema de cada módulo, quem: consultor, gate: false, saida: _maps/fontes.md, pronto_quando: Toda fonte com dono e forma de consulta}
+    - {id: F1.3, titulo: Montar o glossário inicial a partir das entrevistas, quem: agente, gate: false, saida: _maps/glossario.md, pronto_quando: Siglas das entrevistas cobertas}
+    - {id: F1.4, titulo: Cliente escreve as 10 perguntas-ouro com respostas esperadas, quem: cliente, gate: false, saida: _implantacao/perguntas-ouro.md, pronto_quando: 10 perguntas preenchidas}
+    - {id: F1.5, titulo: Aprovar diagnóstico, vertical e módulos, quem: cliente, gate: true, saida: _maps/decisoes.md, pronto_quando: Aprovação registrada}
+
+- numero: 2
+  nome: Estrutura e semeadura
+  objetivo: Regenerar com os módulos aprovados e semear conteúdo real em todos os mapas.
+  pronto_quando: brain-check verde e todo mapa com conteúdo real.
+  gate: true
+  etapas:
+    - {id: F2.1, titulo: Regenerar o cérebro com os módulos aprovados (copier update), quem: consultor, gate: false, saida: .copier-answers.yml, pronto_quando: Módulos aprovados ativos}
+    - {id: F2.2, titulo: Ajustar RESOLVER.md e READMEs ao vocabulário do cliente, quem: agente, gate: false, saida: RESOLVER.md, pronto_quando: Termos do glossário refletidos}
+    - {id: F2.3, titulo: Preencher o primeiro hot.md, quem: agente, gate: true, saida: _maps/hot.md, pronto_quando: brain-check verde e cliente revisou}
+    - {id: F2.4, titulo: Completar fontes.md com todas as fontes do diagnóstico, quem: agente, gate: false, saida: _maps/fontes.md, pronto_quando: Fontes do F1.2 presentes}
+    - {id: F2.5, titulo: Criar notas das pessoas-chave e coletar bios (cada pessoa aprova a sua), quem: agente, gate: false, saida: 05-pessoas/, pronto_quando: Pessoas-chave com nota; bios aprovadas marcadas}
+    - {id: F2.6, titulo: Rodar brain-check e corrigir até ficar verde, quem: agente, gate: true, saida: relatório do brain-check, pronto_quando: Zero erros}
+
+- numero: 3
+  nome: Conexão
+  objetivo: Acervo no R2, AI Search indexando cérebro e acervo, Worker MCP atrás do Access.
+  pronto_quando: Pelo menos 8 de 10 perguntas-ouro corretas e com fonte citada.
+  gate: true
+  etapas:
+    - {id: F3.1, titulo: Carregar o acervo no R2 com metadados, quem: consultor, gate: false, saida: bucket do acervo, pronto_quando: Documentos e metadados no R2}
+    - {id: F3.2, titulo: Configurar AI Search (híbrido) sobre cérebro e acervo, quem: consultor, gate: false, saida: instância AI Search, pronto_quando: Indexação concluída}
+    - {id: F3.3, titulo: Publicar o Worker MCP atrás do Access, quem: consultor, gate: false, saida: endpoint MCP, pronto_quando: Agente externo autentica e consulta}
+    - {id: F3.4, titulo: Testar barreira de acesso com pergunta proibida, quem: agente, gate: true, saida: _implantacao/diagnostico.md, pronto_quando: Pergunta proibida não retorna conteúdo}
+    - {id: F3.5, titulo: Rodar as perguntas-ouro, quem: agente, gate: true, saida: _implantacao/perguntas-ouro.md, pronto_quando: 8 ou mais de 10 corretas com fonte}
+
+- numero: 4
+  nome: Operação assistida
+  objetivo: Ligar as rotinas e acompanhar o cliente operando.
+  pronto_quando: 2 revisões semanais feitas pelo cliente, inbox zerada e hot.md com no máximo 7 dias.
+  gate: false
+  etapas:
+    - {id: F4.1, titulo: "Ligar as rotinas (curar-hot, triagem-inbox, revisao-semanal, promover-memoria)", quem: consultor, gate: false, saida: agendamentos ativos, pronto_quando: Primeira execução de cada rotina registrada}
+    - {id: F4.2, titulo: Treinar os donos de cada área, quem: consultor, gate: false, saida: lista de presença, pronto_quando: Donos treinados}
+    - {id: F4.3, titulo: Acompanhar duas revisões semanais feitas pelo cliente, quem: cliente, gate: false, saida: diario/, pronto_quando: Duas revisões registradas}
+
+- numero: 5
+  nome: Entrega
+  objetivo: Runbook, painel de saúde e cadência de atualização.
+  pronto_quando: Aceite formal registrado.
+  gate: true
+  etapas:
+    - {id: F5.1, titulo: Escrever o runbook de operação, quem: agente, gate: false, saida: 02-areas/runbook-cerebro.md, pronto_quando: Runbook revisado pelo consultor}
+    - {id: F5.2, titulo: "Montar o painel de saúde (idade do hot, notas sem updated há 90 dias, órfãs, links, perguntas-ouro, versão do kit)", quem: agente, gate: false, saida: _implantacao/saude.md, pronto_quando: Painel preenchido}
+    - {id: F5.3, titulo: Definir a cadência de copier update, quem: consultor, gate: false, saida: _maps/decisoes.md, pronto_quando: Cadência registrada}
+    - {id: F5.4, titulo: Aceite formal do cliente, quem: cliente, gate: true, saida: _maps/decisoes.md, pronto_quando: Aceite registrado}

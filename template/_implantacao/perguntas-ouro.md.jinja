@@ -1,0 +1,16 @@
+---
+type: implantacao
+created: {{ hoje }}
+updated: {{ hoje }}
+---
+# Perguntas-ouro — {{ nome }}
+Teste de aceitação do cérebro. O cliente escreve as 10 perguntas reais e as respostas esperadas na F1. Elas são reexecutadas na F3, na F5 e mensalmente (skill `perguntas-ouro`). Meta: 8 ou mais corretas, com fonte citada.
+{% for i in range(1, 11) %}
+## Pergunta {{ i }}
+- **Pergunta:** (preencher)
+- **Resposta esperada:** (preencher)
+- **Fonte esperada:** (preencher)
+{% endfor %}
+## Execuções
+| Data | Corretas | Com fonte | Observação |
+|---|---|---|---|

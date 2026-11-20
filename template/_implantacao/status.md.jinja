@@ -1,0 +1,12 @@
+---
+type: implantacao
+created: {{ hoje }}
+updated: {{ hoje }}
+---
+# Status da implantação — {{ nome }}
+Estados: `pendente` · `em_andamento` · `feita` · `bloqueada` (com motivo).
+
+| Etapa | Título | Quem | Gate | Estado | Observação |
+|---|---|---|---|---|---|
+{% for f in fases %}{% for e in f.etapas %}| {{ e.id }} | {{ e.titulo }} | {{ e.quem }} | {{ "sim" if e.gate else "não" }} | pendente |  |
+{% endfor %}{% endfor %}
