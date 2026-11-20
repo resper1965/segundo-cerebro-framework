@@ -118,14 +118,14 @@ id: teses
 nome: Teses jurídicas
 descricao: Uma nota por tese, com argumentos, peças onde foi usada e resultado.
 depende_de: [casos, modelos]
-pastas: [10-teses]
+pastas: [12-teses]
 mapas: [mapa-teses]
 templates: [template-tese]
 fontes:
   - {fonte: GED, o_que: "peças e decisões", nao_duplicar: "o documento"}
 implantacao:
-  - {id: M-teses.1, fase: 2, titulo: "Levantar as 10 teses mais usadas", quem: consultor, gate: false}
-  - {id: M-teses.2, fase: 3, titulo: "Ligar 3 teses a peças reais no acervo", quem: agente, gate: true}
+  - {id: M-teses.1, fase: 2, titulo: "Levantar as 10 teses mais usadas", quem: consultor, gate: false, saida: 12-teses/, pronto_quando: "10 teses no mapa"}
+  - {id: M-teses.2, fase: 3, titulo: "Ligar 3 teses a peças reais no acervo", quem: agente, gate: true, saida: 12-teses/, pronto_quando: "3 teses com peças e resultado"}
 checks:
   - "toda tese tem 'resultado' preenchido ou 'pendente'"
 sistema:
@@ -163,7 +163,7 @@ Encadeamento: `ofertas` → `propostas` (puxa escopo, entregáveis, premissas e 
 
 **Bio profissional (núcleo, em `05-pessoas/`):** a nota de pessoa da equipe ganha uma seção `bio` para reúso em propostas, apresentações e sites: versões curta (~50 palavras), média (~120) e longa; idiomas pt/en; formação, certificações, áreas de atuação, cases autorizados; foto no acervo (R2), só linkada. Frontmatter `bio_publicavel: true` só depois de a própria pessoa aprovar o texto (aprovação registrada na linha do tempo). Só informação profissional e pública; nada de dado pessoal sensível. O módulo `propostas` monta a seção de equipe a partir dessas bios (campo `equipe:` da proposta).
 
-**Módulo `design-system`:** `11-design-system/` com `tokens.json` (W3C DTCG), `design.md` (regras de uso para agentes), `voz-e-tom.md`; logos, fontes e imagens no acervo (R2), só linkados. Se o cliente já tem DS em Figma/Storybook, o cérebro guarda tokens exportados e regras destiladas e aponta a fonte em `fontes.md`; se não tem, o cérebro é a casa canônica. Etapas: F1 inventário de ativos de marca; F2 captura de tokens e regras; F3 (gate) agente gera documento de teste só com o DS e o cliente confirma fidelidade. Skill de operação `aplicar-marca`; Worker MCP expõe `get_tokens` e `get_regras`.
+**Módulo `design-system`:** `17-design-system/` com `tokens.json` (W3C DTCG), `design.md` (regras de uso para agentes), `voz-e-tom.md`; logos, fontes e imagens no acervo (R2), só linkados. Se o cliente já tem DS em Figma/Storybook, o cérebro guarda tokens exportados e regras destiladas e aponta a fonte em `fontes.md`; se não tem, o cérebro é a casa canônica. Etapas: F1 inventário de ativos de marca; F2 captura de tokens e regras; F3 (gate) agente gera documento de teste só com o DS e o cliente confirma fidelidade. Skill de operação `aplicar-marca`; Worker MCP expõe `get_tokens` e `get_regras`.
 
 **Verticais v1:** `pessoal` = núcleo + objetivos + leituras · `empresa` = núcleo + clientes + fornecedores + processos + sistemas + okrs · `juridico` = empresa + casos + teses + modelos + jurisprudencia.
 
